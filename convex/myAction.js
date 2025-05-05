@@ -7,15 +7,15 @@ import { TaskType } from "@google/generative-ai";
 import { v } from "convex/values";
 export const ingest = action({
     args: {
-        splitText:v.any(),
-        fileId:v.string(),
+        splitText: v.any(),
+        fileId: v.string(),
     },
     handler: async (ctx, args) => {
         await ConvexVectorStore.fromTexts(
             args.splitText, // array of strings
             args.fileId, // string
             new GoogleGenerativeAIEmbeddings({
-                apiKey: 'AIzaSyCoWDim_3BkRI_XuPdUscVyoJjb6XyiU84',
+                apiKey: NEXT_PUBLIC_GOOGLE_API_KEY,
                 model: "text-embedding-004", // 768 dimensions
                 taskType: TaskType.RETRIEVAL_DOCUMENT,
                 title: "Document title",
