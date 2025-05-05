@@ -13,10 +13,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button'
 import { Loader2Icon, Upload } from 'lucide-react'
-import { useMutation } from 'convex/react'
+import { useAction, useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import uuid4 from "uuid4";
 import { useUser } from '@clerk/nextjs'
+import axios from 'axios'
 
 function UploadPdfDialog({ children }) {
     const [fileName, setFileName] = useState('');
@@ -26,6 +27,7 @@ function UploadPdfDialog({ children }) {
     const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl)
     const addFileEntry = useMutation(api.fileStorage.AddFileEntryToDb)
     const getFileUrl = useMutation(api.fileStorage.getFileUrl)
+    const embbedDocument = useAction(api.myAction.ingest)
     const { user } = useUser();
     const OnFileSelect = (event) => {
         setFile(event.target.files[0]);
@@ -35,29 +37,38 @@ function UploadPdfDialog({ children }) {
         setLoading(true);
 
 
-        // Step 1: Get a short-lived upload URL
-        const postUrl = await generateUploadUrl();
-        // Step 2: POST the file to the URL
+        // // Step 1: Get a short-lived upload URL
+        // const postUrl = await generateUploadUrl();
+        // // Step 2: POST the file to the URL
 
-        const result = await fetch(postUrl, {
-            method: "POST",
-            headers: { "Content-Type": file?.type },
-            body: file,
+        // const result = await fetch(postUrl, {
+        //     method: "POST",
+        //     headers: { "Content-Type": file?.type },
+        //     body: file,
+        // });
+        // const { storageId } = await result.json();
+        // console.log("File uploaded successfully:", storageId);
+
+        // const fileId = uuid4();
+        // const fileUrl = await getFileUrl({ storageId: storageId })
+        // // Step 3: Save the newly allocated storage id to the database
+        // const res = await addFileEntry({
+        //     fileId: fileId,
+        //     storageId: storageId,
+        //     fileName: fileName ?? 'Untitled File',
+        //     fileUrl: fileUrl,
+        //     createdBy: user?.primaryEmailAddress?.emailAddress
+        // })
+        // console.log(res)
+
+        // api call to fetch PDF proccessed data
+        const apiResponse = await axios.get('/api/pdfloader')
+        console.log(apiResponse.data.result)
+        const embbedData = embbedDocument({
+            splitText: apiResponse.data.result,
+            fileId:'123'
         });
-        const { storageId } = await result.json();
-        console.log("File uploaded successfully:", storageId);
-
-        const fileId = uuid4();
-        const fileUrl = await getFileUrl({ storageId: storageId })
-        // Step 3: Save the newly allocated storage id to the database
-        const res = await addFileEntry({
-            fileId: fileId,
-            storageId: storageId,
-            fileName: fileName ?? 'Untitled File',
-            fileUrl: fileUrl,
-            createdBy: user?.primaryEmailAddress?.emailAddress
-        })
-        console.log(res)
+        console.log(embbedData)
         setLoading(false);
     }
 
