@@ -23,6 +23,7 @@ function UploadPdfDialog({ children }) {
     const [fileName, setFileName] = useState('');
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl)
     const addFileEntry = useMutation(api.fileStorage.AddFileEntryToDb)
@@ -37,46 +38,50 @@ function UploadPdfDialog({ children }) {
         setLoading(true);
 
 
-        // // Step 1: Get a short-lived upload URL
-        // const postUrl = await generateUploadUrl();
-        // // Step 2: POST the file to the URL
+        // Step 1: Get a short-lived upload URL
+        const postUrl = await generateUploadUrl();
+        // Step 2: POST the file to the URL
 
-        // const result = await fetch(postUrl, {
-        //     method: "POST",
-        //     headers: { "Content-Type": file?.type },
-        //     body: file,
-        // });
-        // const { storageId } = await result.json();
-        // console.log("File uploaded successfully:", storageId);
+        const result = await fetch(postUrl, {
+            method: "POST",
+            headers: { "Content-Type": file?.type },
+            body: file,
+        });
+        const { storageId } = await result.json();
+        console.log("File uploaded successfully:", storageId);
 
-        // const fileId = uuid4();
-        // const fileUrl = await getFileUrl({ storageId: storageId })
-        // // Step 3: Save the newly allocated storage id to the database
-        // const res = await addFileEntry({
-        //     fileId: fileId,
-        //     storageId: storageId,
-        //     fileName: fileName ?? 'Untitled File',
-        //     fileUrl: fileUrl,
-        //     createdBy: user?.primaryEmailAddress?.emailAddress
-        // })
-        // console.log(res)
+        const fileId = uuid4();
+        const fileUrl = await getFileUrl({ storageId: storageId })
+        // Step 3: Save the newly allocated storage id to the database
+        const res = await addFileEntry({
+            fileId: fileId,
+            storageId: storageId,
+            fileName: fileName ?? 'Untitled File',
+            fileUrl: fileUrl,
+            createdBy: user?.primaryEmailAddress?.emailAddress
+        })
+        console.log(res)
 
         // api call to fetch PDF proccessed data
-        const apiResponse = await axios.get('/api/pdfloader')
+        const apiResponse = await axios.get('/api/pdfloader?pdfUrl=' + fileUrl)
         console.log(apiResponse.data.result)
-        const embbedData = embbedDocument({
+        await embbedDocument({
             splitText: apiResponse.data.result,
-            fileId:'123'
+            fileId: fileId
         });
-        console.log(embbedData)
+        // console.log(embbedData)
         setLoading(false);
+        setOpen(false);
     }
 
     return (
-        <div>
-            <Dialog>
+        <div className="flex justify-center">
+            <Dialog open={open}>
                 <DialogTrigger asChild>
-                    {children}
+                    <Button onClick={()=>{setOpen(true)}} className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-48 px-10 py-1 mb-5 rounded-md flex items-center gap-2 shadow-sm transition-colors">
+                        <Upload size={16} />
+                        Upload PDF
+                    </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md bg-background border-border">
                     <DialogHeader>
