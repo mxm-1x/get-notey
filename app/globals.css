@@ -45,60 +45,62 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #000000;
-  --foreground: #f8f2dc;
-  --card: #000000;
-  --card-foreground: #f8f2dc;
-  --popover: #000000;
-  --popover-foreground: #f8f2dc;
-  --primary: #51cb20;
-  --primary-foreground: #000000;
-  --secondary: #f8f2dc;
-  --secondary-foreground: #000000;
-  --muted: #f8f2dc;
-  --muted-foreground: #51cb20;
-  --accent: #51cb20;
-  --accent-foreground: #000000;
-  --destructive: #51cb20;
-  --border: #f8f2dc;
-  --input: #f8f2dc;
-  --ring: #51cb20;
-  --chart-1: #51cb20;
-  --chart-2: #f8f2dc;
-  --chart-3: #000000;
-  --chart-4: #51cb20;
-  --chart-5: #f8f2dc;
-  --sidebar: #000000;
-  --sidebar-foreground: #f8f2dc;
-  --sidebar-primary: #51cb20;
-  --sidebar-primary-foreground: #000000;
-  --sidebar-accent: #51cb20;
-  --sidebar-accent-foreground: #000000;
-  --sidebar-border: #f8f2dc;
-  --sidebar-ring: #51cb20;
+  --background: #121212;
+  --foreground: #e0e0e0;
+  --card: #1e1e1e;
+  --card-foreground: #e0e0e0;
+  --popover: #282828;
+  --popover-foreground: #e0e0e0;
+  --primary: #4CAF50;
+  --primary-foreground: #ffffff;
+  --secondary: #2d2d2d;
+  --secondary-foreground: #ffffff;
+  --muted: #333333;
+  --muted-foreground: #888888;
+  --accent: #4CAF50;
+  --accent-foreground: #ffffff;
+  --destructive: #c62828;
+  --border: #333333;
+  --input: #2d2d2d;
+  --ring: #4CAF50;
+  --chart-1: #4CAF50;
+  --chart-2: #8BC34A;
+  --chart-3: #1e1e1e;
+  --chart-4: #66BB6A;
+  --chart-5: #e0e0e0;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #e0e0e0;
+  --sidebar-primary: #4CAF50;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #4CAF50;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #333333;
+  --sidebar-ring: #4CAF50;
   
   /* Custom theme colors */
-  --notey-black: #000000;
-  --notey-cream: #f8f2dc;
-  --notey-bright: #51cb20;
+  --notey-black: #121212;
+  --notey-cream: #e0e0e0;
+  --notey-bright: #4CAF50;
+  --notey-hover: #45a049;
+  --notey-active: #388e3c;
+  --notey-shadow: rgba(0, 0, 0, 0.2);
 }
 
 .dark {
-  /* Keep the same dark theme as our custom theme */
-  --background: #000000;
-  --foreground: #f8f2dc;
-  --card: #000000;
-  --card-foreground: #f8f2dc;
-  --popover: #000000;
-  --popover-foreground: #f8f2dc;
-  --primary: #51cb20;
-  --primary-foreground: #000000;
-  --secondary: #f8f2dc;
-  --secondary-foreground: #000000;
-  --muted: #f8f2dc;
-  --muted-foreground: #51cb20;
-  --accent: #51cb20;
-  --accent-foreground: #000000;
+  --background: #121212;
+  --foreground: #e0e0e0;
+  --card: #1e1e1e;
+  --card-foreground: #e0e0e0;
+  --popover: #282828;
+  --popover-foreground: #e0e0e0;
+  --primary: #4CAF50;
+  --primary-foreground: #ffffff;
+  --secondary: #2d2d2d;
+  --secondary-foreground: #ffffff;
+  --muted: #333333;
+  --muted-foreground: #888888;
+  --accent: #4CAF50;
+  --accent-foreground: #ffffff;
   --destructive: #51cb20;
   --border: #f8f2dc;
   --input: #f8f2dc;
@@ -129,7 +131,7 @@
 
 
 :root {
-  --notey-black: #000000;
+  --notey-black: #0a0a0a;
   --notey-cream: #f8f2dc;
   --notey-dark-green: #002a22;
   --notey-green: #3e5622;
@@ -137,6 +139,16 @@
 }
 
 body {
-  color: var(--notey-dark-green);
-  background-color: var(--notey-cream);
+  /* color: var(--notey-dark-green); */
+  background-color: var(--notey-black);
+}
+
+/* In globals.css */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #888888 !important;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  opacity: 0.6 !important;
 }

@@ -30,63 +30,78 @@ function UploadPdfDialog({ children }) {
     const getFileUrl = useMutation(api.fileStorage.getFileUrl)
     const embbedDocument = useAction(api.myAction.ingest)
     const { user } = useUser();
+    
     const OnFileSelect = (event) => {
         setFile(event.target.files[0]);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+        // Reset form when dialog closes
+        setFileName('');
+        setFile(null);
     }
 
     const OnUpload = async () => {
         setLoading(true);
 
+        try {
+            // Step 1: Get a short-lived upload URL
+            const postUrl = await generateUploadUrl();
+            // Step 2: POST the file to the URL
 
-        // Step 1: Get a short-lived upload URL
-        const postUrl = await generateUploadUrl();
-        // Step 2: POST the file to the URL
+            const result = await fetch(postUrl, {
+                method: "POST",
+                headers: { "Content-Type": file?.type },
+                body: file,
+            });
+            const { storageId } = await result.json();
+            console.log("File uploaded successfully:", storageId);
 
-        const result = await fetch(postUrl, {
-            method: "POST",
-            headers: { "Content-Type": file?.type },
-            body: file,
-        });
-        const { storageId } = await result.json();
-        console.log("File uploaded successfully:", storageId);
+            const fileId = uuid4();
+            const fileUrl = await getFileUrl({ storageId: storageId })
+            // Step 3: Save the newly allocated storage id to the database
+            const res = await addFileEntry({
+                fileId: fileId,
+                storageId: storageId,
+                fileName: fileName ?? 'Untitled File',
+                fileUrl: fileUrl,
+                createdBy: user?.primaryEmailAddress?.emailAddress
+            })
+            console.log(res)
 
-        const fileId = uuid4();
-        const fileUrl = await getFileUrl({ storageId: storageId })
-        // Step 3: Save the newly allocated storage id to the database
-        const res = await addFileEntry({
-            fileId: fileId,
-            storageId: storageId,
-            fileName: fileName ?? 'Untitled File',
-            fileUrl: fileUrl,
-            createdBy: user?.primaryEmailAddress?.emailAddress
-        })
-        console.log(res)
-
-        // api call to fetch PDF proccessed data
-        const apiResponse = await axios.get('/api/pdfloader?pdfUrl=' + fileUrl)
-        console.log(apiResponse.data.result)
-        await embbedDocument({
-            splitText: apiResponse.data.result,
-            fileId: fileId
-        });
-        // console.log(embbedData)
-        setLoading(false);
-        setOpen(false);
+            // api call to fetch PDF proccessed data
+            const apiResponse = await axios.get('/api/pdfloader?pdfUrl=' + fileUrl)
+            console.log(apiResponse.data.result)
+            await embbedDocument({
+                splitText: apiResponse.data.result,
+                fileId: fileId
+            });
+            // Reset form
+            setFileName('');
+            setFile(null);
+            // Close dialog
+            setOpen(false);
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
         <div className="flex justify-center">
-            <Dialog open={open}>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button onClick={()=>{setOpen(true)}} className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium w-48 px-10 py-1 mb-5 rounded-md flex items-center gap-2 shadow-sm transition-colors">
-                        <Upload size={16} />
+                    <Button onClick={() => setOpen(true)} className="bg-[#51cb20] hover:bg-[#45a049] text-white font-medium w-48 px-10 py-1 mb-5 rounded-md flex items-center gap-2 shadow-sm transition-colors">
+                        <Upload size={16} className="text-white" />
                         Upload PDF
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md bg-background border-border">
                     <DialogHeader>
                         <DialogTitle className="flex items-center gap-2 text-xl font-medium text-foreground">
-                            <Upload size={20} className="text-primary" />
+                            <Upload size={20} className="text-[#51cb20]" />
                             Upload PDF File
                         </DialogTitle>
                         <DialogDescription className="text-sm text-muted-foreground pt-1">
@@ -99,7 +114,7 @@ function UploadPdfDialog({ children }) {
                             <label htmlFor="file-upload" className="text-sm font-medium text-foreground">
                                 Select a PDF file
                             </label>
-                            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer bg-card">
+                            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-[#51cb20] transition-colors cursor-pointer bg-card">
                                 <input
                                     id="file-upload"
                                     type="file"
@@ -121,7 +136,7 @@ function UploadPdfDialog({ children }) {
 
                         <div className="flex flex-col gap-2">
                             <label htmlFor="file-name" className="text-sm font-medium text-foreground">
-                                File Name <span className="text-primary">*</span>
+                                File Name <span className="text-[#51cb20]">*</span>
                             </label>
                             <Input
                                 id="file-name"
@@ -134,19 +149,21 @@ function UploadPdfDialog({ children }) {
                     </div>
 
                     <DialogFooter className="flex justify-between sm:justify-between border-t border-border pt-4">
-                        <DialogClose asChild>
-                            <Button type="button" variant="outline" className="text-sm text-foreground border-border">
-                                Cancel
-                            </Button>
-                        </DialogClose>
+                        <Button 
+                            type="button" 
+                            variant="outline" 
+                            className="text-sm text-foreground border-border"
+                            onClick={handleClose}
+                        >
+                            Cancel
+                        </Button>
                         <Button
                             type="button"
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground text-sm"
-                            disabled={!file || !fileName}
+                            className="bg-[#51cb20] hover:bg-[#45a049] text-white text-sm"
+                            disabled={!file || !fileName || loading}
                             onClick={OnUpload}
                         >
                             {loading ? <Loader2Icon className='animate-spin' /> : 'Upload'}
-
                         </Button>
                     </DialogFooter>
                 </DialogContent>
