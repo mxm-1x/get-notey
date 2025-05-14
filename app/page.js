@@ -8,6 +8,7 @@ import { ArrowRight, BookOpen, FileText, Sparkles, Upload } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ClientOnly from '@/components/ClientOnly';
 
 export default function Home() {
   const { user, isSignedIn } = useUser();
@@ -53,50 +54,51 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] to-[#121212] overflow-hidden">
-      {/* Navigation */}
-      <motion.nav 
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="flex items-center justify-between p-6 max-w-7xl mx-auto"
-      >
-        <div className="flex items-center space-x-2">
-          <Image 
-            src="/logo.png" 
-            alt="Get Notey Logo" 
-            width={40} 
-            height={40}
-            className="rounded-md"
-          />
-          <h1 className="text-2xl font-bold text-white">Get Notey</h1>
-        </div>
-        <div className="flex items-center space-x-4">
-          {isSignedIn ? (
-            <div className="flex items-center space-x-4">
-              <Link href="/dashboard">
-                <Button variant="outline" className="border-[#51cb20] text-[#51cb20] hover:bg-[#51cb20] hover:text-white transition-all">
-                  Go to Dashboard
-                </Button>
-              </Link>
-              <UserButton afterSignOutUrl="/" />
-            </div>
-          ) : (
-            <div className="flex items-center space-x-4">
-              <Link href="/sign-in">
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black transition-all">
-                  Sign In
-                </Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button className="bg-gradient-to-r from-[#51cb20] to-[#3da00a] hover:from-[#45a049] hover:to-[#348c08] text-white transition-all">
-                  Sign Up
-                </Button>
-              </Link>
-            </div>
-          )}
-        </div>
-      </motion.nav>
-
+      <ClientOnly>
+        <motion.nav 
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center justify-between p-6 max-w-7xl mx-auto"
+        >
+          <div className="flex items-center space-x-2">
+            <Image 
+              src="/logo.png" 
+              alt="Get Notey Logo" 
+              width={40} 
+              height={40}
+              className="rounded-md"
+            />
+            <h1 className="text-2xl font-bold text-white">Get Notey</h1>
+          </div>
+          <div className="flex items-center space-x-4">
+            {isSignedIn ? (
+              <div className="flex items-center space-x-4">
+                <Link href="/dashboard">
+                  <Button variant="outline" className="border-[#51cb20] text-[#51cb20] hover:bg-[#51cb20] hover:text-white transition-all">
+                    Go to Dashboard
+                  </Button>
+                </Link>
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link href="/sign-in">
+                  <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black transition-all">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button className="bg-gradient-to-r from-[#51cb20] to-[#3da00a] hover:from-[#45a049] hover:to-[#348c08] text-white transition-all">
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </motion.nav>
+      </ClientOnly>
+      
       {/* Hero Section */}
       <section className="py-20 px-6">
         <div className="max-w-5xl mx-auto text-center">
