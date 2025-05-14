@@ -20,12 +20,12 @@ const Workspace = () => {
     return (
         <div>
             <WorkspaceHeader />
-            <div className="flex flex-row h-[calc(100vh-5rem)]">
-                <div className="w-1/2 p-4">
+            <div className="flex flex-col md:flex-row h-[calc(100vh-5rem)]">
+                <div className="w-full md:w-1/2 p-2 md:p-4 h-1/2 md:h-full">
                     {/* text editor */}
-                    <Texteditor/>
+                    <Texteditor fileId={fileId}/>
                 </div>
-                <div className="w-1/2 p-4">
+                <div className="w-full md:w-1/2 p-2 md:p-4 h-1/2 md:h-full">
                     {/* pdf viewer */}
                     {fileInfo && fileInfo[0]?.fileUrl ? (
                         <PdfViewer fileUrl={fileInfo[0].fileUrl} />

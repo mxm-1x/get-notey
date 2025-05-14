@@ -6,10 +6,23 @@ import BulletList from '@tiptap/extension-bullet-list'
 import OrderedList from '@tiptap/extension-ordered-list'
 import ListItem from '@tiptap/extension-list-item'
 import Blockquote from '@tiptap/extension-blockquote'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import EditorExtentions from './EditorExtentions'
+import { useQuery, useMutation } from 'convex/react'
+import { api } from '@/convex/_generated/api'
 
-function Texteditor() {
+function Texteditor({fileId}) {
+    const [saveStatus, setSaveStatus] = useState('Saved')
+    const [debounceTimeout, setDebounceTimeout] = useState(null)
+
+    const notes = useQuery(api.notes.getNotes, {
+        fileId: fileId
+    })
+
+    const saveNotes = useMutation(api.notes.saveNotes)
+
+    console.log(notes)
+
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -57,12 +70,61 @@ function Texteditor() {
                 class: 'focus:outline-none min-h-[200px] p-3 prose prose-invert max-w-none',
             },
         },
+        onUpdate: ({ editor }) => {
+            // Set status to "Saving..."
+            setSaveStatus('Saving...')
+            
+            // Clear any existing timeout
+            if (debounceTimeout) {
+                clearTimeout(debounceTimeout)
+            }
+            
+            // Set a new timeout to save after 1 second of inactivity
+            const timeout = setTimeout(() => {
+                const content = editor.getHTML()
+                
+                // Save to database
+                if (fileId) {
+                    saveNotes({
+                        fileId: fileId,
+                        content: content,
+                        createdBy: "" // Optional parameter in your schema
+                    }).then(() => {
+                        setSaveStatus('Saved')
+                    }).catch(error => {
+                        console.error('Error saving notes:', error)
+                        setSaveStatus('Error saving')
+                    })
+                }
+            }, 1000)
+            
+            setDebounceTimeout(timeout)
+        },
     })
+
+    useEffect(() => {
+        // Set editor content when notes are loaded
+        if (editor && notes) {
+            editor.commands.setContent(notes)
+        }
+    },[notes, editor])
+
+    // Clean up timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (debounceTimeout) {
+                clearTimeout(debounceTimeout)
+            }
+        }
+    }, [debounceTimeout])
 
     return (
         <div>
-            {editor && <EditorExtentions editor={editor} />}
+            {editor && <EditorExtentions editor={editor} fileId={fileId} />}
             <div className='text-white bg-[#1e1e1e] rounded-lg p-2'>
+                <div className="flex justify-end mb-2">
+                    <span className="text-xs text-gray-400">{saveStatus}</span>
+                </div>
                 <style jsx global>{`
                     .ProseMirror h1 {
                         font-size: 1.8rem;

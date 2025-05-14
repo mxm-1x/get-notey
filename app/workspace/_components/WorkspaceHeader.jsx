@@ -2,7 +2,7 @@ import { UserButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import React from 'react'
 
-const WorkspaceHeader = () => {
+const WorkspaceHeader = ({fileName}) => {
     return (
         <header className="w-full border-b border-border bg-background shadow-sm sticky top-0 z-20">
             <div className="flex justify-between items-center flex-row px-6 py-3 h-20">

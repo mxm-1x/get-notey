@@ -19,7 +19,7 @@ import uuid4 from "uuid4";
 import { useUser } from '@clerk/nextjs'
 import axios from 'axios'
 
-function UploadPdfDialog({ children }) {
+function UploadPdfDialog({ children, isMaxFile = 0 }) {
     const [fileName, setFileName] = useState('');
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ function UploadPdfDialog({ children }) {
     const getFileUrl = useMutation(api.fileStorage.getFileUrl)
     const embbedDocument = useAction(api.myAction.ingest)
     const { user } = useUser();
-    
+
     const OnFileSelect = (event) => {
         setFile(event.target.files[0]);
     }
@@ -93,7 +93,7 @@ function UploadPdfDialog({ children }) {
         <div className="flex justify-center">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button onClick={() => setOpen(true)} className="bg-[#51cb20] hover:bg-[#45a049] text-white font-medium w-48 px-10 py-1 mb-5 rounded-md flex items-center gap-2 shadow-sm transition-colors">
+                    <Button onClick={() => setOpen(true)} disabled={isMaxFile >= 10} className="bg-[#51cb20] hover:bg-[#45a049] text-white font-medium w-48 px-10 py-1 mb-5 rounded-md flex items-center gap-2 shadow-sm transition-colors">
                         <Upload size={16} className="text-white" />
                         Upload PDF
                     </Button>
@@ -105,7 +105,7 @@ function UploadPdfDialog({ children }) {
                             Upload PDF File
                         </DialogTitle>
                         <DialogDescription className="text-sm text-muted-foreground pt-1">
-                            Add a new PDF document to your workspace
+                            Add a new PDF document to your workspace (max 10 files)
                         </DialogDescription>
                     </DialogHeader>
 
@@ -149,9 +149,9 @@ function UploadPdfDialog({ children }) {
                     </div>
 
                     <DialogFooter className="flex justify-between sm:justify-between border-t border-border pt-4">
-                        <Button 
-                            type="button" 
-                            variant="outline" 
+                        <Button
+                            type="button"
+                            variant="outline"
                             className="text-sm text-foreground border-border"
                             onClick={handleClose}
                         >
