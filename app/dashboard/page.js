@@ -2,22 +2,27 @@
 import { api } from '@/convex/_generated/api';
 import { useUser } from '@clerk/nextjs'
 import { useQuery } from 'convex/react';
-import { redirect } from 'next/dist/server/api-utils';
+// Remove this unused import
+// import { redirect } from 'next/dist/server/api-utils';
 import React from 'react'
-import { FileText, Calendar, User } from 'lucide-react';
+import { FileText, User } from 'lucide-react';
+// Remove Calendar if not used
 import Link from 'next/link';
 
 function Dashboard() {
     const { user } = useUser();
+    // Remove these commented lines
     // if (!user) {
     //     redirect("/sign-in");
     // }
+    
     const fileList = useQuery(api.fileStorage.GetUserFiles, {
         userEmail: user?.primaryEmailAddress?.emailAddress,
     });
 
-
-    console.log(fileList)
+    // Remove this console.log
+    // console.log(fileList)
+    
     return (
         <div className="p-6 max-w-6xl mx-auto bg-[#121212]">
             <h2 className='font-medium text-3xl mb-6 text-white'>Your Workspace</h2>
