@@ -15,7 +15,7 @@ export const ingest = action({
             args.splitText, // array of strings
             args.fileId, // string
             new GoogleGenerativeAIEmbeddings({
-                apiKey: 'AIzaSyCZbJ5zi3RvnEz9_GBvhqFB75Wd9FwL1mk',
+                apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
                 model: "text-embedding-004", // 768 dimensions
                 taskType: TaskType.RETRIEVAL_DOCUMENT,
                 title: "Document title",
@@ -23,5 +23,30 @@ export const ingest = action({
             { ctx }
         );
         return "Success";
+    },
+});
+
+export const search = action({
+    args: {
+        query: v.string(),
+        fileId: v.string(),
+    },
+    handler: async (ctx, args) => {
+        const vectorStore = new ConvexVectorStore(
+            new GoogleGenerativeAIEmbeddings({
+                apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
+                model: "text-embedding-004", // 768 dimensions
+                taskType: TaskType.RETRIEVAL_DOCUMENT,
+                title: "Document title",
+            }),
+            { ctx }
+        );
+
+        const resultOne = await (
+            await vectorStore.similaritySearch(args.query, 1)
+        ).filter((q) => q.metadata.fileId !== args.fileId);
+        console.log(resultOne);
+
+        return JSON.stringify(resultOne);
     },
 });

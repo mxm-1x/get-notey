@@ -7,7 +7,7 @@ export default defineSchema({
         email: v.string(),
         password: v.string(),
         imageUrl: v.string(),
-        urgrade: v.boolean() // Should be "upgrade" instead of "urgrade"
+        upgrade: v.boolean() // Should be "upgrade" instead of "urgrade"
     }),
     pdfFiles: defineTable({
         fileId: v.string(),

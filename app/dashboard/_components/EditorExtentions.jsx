@@ -26,7 +26,7 @@ function EditorExtentions({ editor }) {
         console.log(selectedText)
     
         try {
-            const result = await searchAi(
+            const result =  await searchAi(
                 {
                     query: selectedText,
                     fileId: fileId
