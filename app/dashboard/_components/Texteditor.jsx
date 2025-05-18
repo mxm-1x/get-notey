@@ -79,7 +79,7 @@ function Texteditor({fileId}) {
                 clearTimeout(debounceTimeout)
             }
             
-            // Set a new timeout to save after 1 second of inactivity
+            // Set a new timeout to save after 5 seconds of inactivity
             const timeout = setTimeout(() => {
                 const content = editor.getHTML()
                 
@@ -96,7 +96,7 @@ function Texteditor({fileId}) {
                         setSaveStatus('Error saving')
                     })
                 }
-            }, 1000)
+            }, 5000) // Changed from 1000 to 5000 milliseconds
             
             setDebounceTimeout(timeout)
         },

@@ -4,7 +4,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
 import { useEffect } from "react";
 import { api } from "@/convex/_generated/api";
-import { ArrowRight, BookOpen, FileText, Sparkles, Upload } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, Sparkles, Upload, CheckCircle, Server, Database, Code, Clock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -13,7 +13,6 @@ export default function Home() {
   const { user, isSignedIn } = useUser();
   const createUser = useMutation(api.user.createUser);
 
-  const demo = '/demo.png'
   useEffect(() => {
     user && CheckUser();
   }, [user]);
@@ -51,14 +50,50 @@ export default function Home() {
     }
   ];
 
+  const processingFeatures = [
+    {
+      icon: <Server className="h-6 w-6 text-[#51cb20]" />,
+      title: "Supercomputing Scale",
+      description: "Optimized for high-performance computing with massive CPU, memory scalability, efficiency, and real-time processing."
+    },
+    {
+      icon: <CheckCircle className="h-6 w-6 text-[#51cb20]" />,
+      title: "Serverless Pricing",
+      description: "Pay only for resources consumed, billed per second so you can optimize cost efficiency, scalability, flexibility, and performance."
+    },
+    {
+      icon: <Code className="h-6 w-6 text-[#51cb20]" />,
+      title: "Powerful Compute Primitives",
+      description: "Efficiently process flexible primitives that scale to thousands of containers with just a single line of Python—maximizing efficiency and performance."
+    }
+  ];
+
+  const performanceFeatures = [
+    {
+      icon: <Server className="h-6 w-6 text-[#51cb20]" />,
+      title: "Flexible Environments",
+      description: "Run your workloads in cloud-native Python, Node.js, or custom Docker containers for high-performance computing."
+    },
+    {
+      icon: <Database className="h-6 w-6 text-[#51cb20]" />,
+      title: "Data Storage",
+      description: "Manage and seamlessly work with storage solutions optimized for your specific use case."
+    },
+    {
+      icon: <Clock className="h-6 w-6 text-[#51cb20]" />,
+      title: "Job Scheduling",
+      description: "Easily control your workloads with powerful scheduling, prioritization, and resource usage optimization."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] to-[#121212] overflow-hidden">
-      {/* Navigation */}
+      {/* Navigation - Updated with glassmorphism effect */}
       <motion.nav 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="flex items-center justify-between p-6 max-w-7xl mx-auto"
+        className="flex items-center justify-between p-6 max-w-7xl mx-auto backdrop-blur-md bg-black/30 rounded-xl mt-4 border border-gray-800"
       >
         <div className="flex items-center space-x-2">
           <Image 
@@ -88,7 +123,7 @@ export default function Home() {
                 </Button>
               </Link>
               <Link href="/sign-up">
-                <Button className="bg-gradient-to-r from-[#51cb20] to-[#3da00a] hover:from-[#45a049] hover:to-[#348c08] text-white transition-all">
+                <Button className="bg-[#51cb20] hover:bg-[#45a049] text-white transition-all">
                   Sign Up
                 </Button>
               </Link>
@@ -97,91 +132,77 @@ export default function Home() {
         </div>
       </motion.nav>
 
-      {/* Hero Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.h2 
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl font-bold mb-6"
-          >
-            <span className="bg-gradient-to-r from-white via-gray-300 to-gray-100 text-transparent bg-clip-text">Your PDF Notes,</span> <span className="bg-gradient-to-r from-[#51cb20] to-[#3da00a] text-transparent bg-clip-text">Organized</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto"
-          >
-            Get Notey helps you organize, annotate, and extract insights from your PDF documents with powerful AI assistance.
-          </motion.p>
-          <motion.div 
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-col sm:flex-row justify-center gap-4"
-          >
-            <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
-              <Button className="bg-gradient-to-r from-[#51cb20] to-[#3da00a] hover:from-[#45a049] hover:to-[#348c08] text-white text-lg px-8 py-6 rounded-xl transition-all shadow-lg hover:shadow-xl hover:shadow-[#51cb20]/20">
-                {isSignedIn ? "Go to Dashboard" : "Get Started"} <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="#learn-more">
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black text-lg px-8 py-6 rounded-xl transition-all">
-                Learn More
-              </Button>
-            </Link>
-          </motion.div>
+      {/* Hero Section - Updated with angled design */}
+      <section className="py-16 px-6 relative">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10 z-0"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+            <motion.div 
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="md:w-1/2"
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#51cb20] to-[#a3e635]">Smart Note-Taking</span> 
+                <span className="text-white block mt-2">with AI Integration</span>
+              </h2>
+              <p className="text-gray-300 mb-8 text-lg leading-relaxed">
+                Get Notey is a powerful note-taking application that combines the simplicity of traditional 
+                note-taking with cutting-edge AI capabilities. Our platform helps you capture, organize, 
+                and enhance your notes with intelligent AI assistance.
+              </p>
+              <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+                <Button className="bg-[#51cb20] hover:from-[#45a049] hover:to-[#94cf2d] text-white text-lg px-8 py-6 rounded-full transition-all shadow-lg shadow-green-900/20">
+                  Get Started <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
+            </motion.div>
+            <motion.div 
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="md:w-1/2"
+            >
+              <div className="relative">
+                <div className="w-full h-[400px] bg-gradient-to-br from-[#1e1e1e] to-[#121212] rounded-lg overflow-hidden border border-[#333] shadow-xl">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-full h-full bg-[url('/demo.png')] bg-cover bg-center opacity-70"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent"></div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* App Preview */}
-      <section className="py-16 px-6 bg-gradient-to-b from-[#1a1a1a] to-[#222222] rounded-t-3xl">
+      {/* Features Section - Updated with cards */}
+      <section className="py-20 px-6 relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#51cb20]/50 to-transparent"></div>
         <div className="max-w-6xl mx-auto">
           <motion.div 
-            initial={{ y: 100, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="bg-[#2a2a2a] rounded-2xl overflow-hidden shadow-2xl border border-[#333] p-2"
-          >
-            <div className="relative w-full h-[500px]">
-              <Image 
-                src="/demo.png" 
-                alt="Get Notey Dashboard Preview" 
-                fill
-                className="object-cover rounded-xl"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-20 px-6 bg-gradient-to-b from-[#222222] to-[#1a1a1a]">
-        <div className="max-w-6xl mx-auto">
-          <motion.h3 
-            initial={{ y: 50, opacity: 0 }}
+            initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white text-center mb-16"
+            className="text-center mb-16"
           >
-            Everything You Need for Your PDFs
-          </motion.h3>
+            <h3 className="text-sm font-medium text-[#51cb20] uppercase tracking-wider mb-3">Features</h3>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Everything you need for your notes</h2>
+          </motion.div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 initial={{ y: 50, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                className="bg-gradient-to-br from-[#2a2a2a] to-[#252525] rounded-xl p-6 border border-[#333] hover:border-[#51cb20] transition-all shadow-lg hover:shadow-xl hover:shadow-[#51cb20]/10"
+                className="bg-gradient-to-b from-[#1e1e1e] to-[#161616] rounded-xl p-6 border border-gray-800 hover:border-[#51cb20]/50 transition-all group hover:shadow-lg hover:shadow-[#51cb20]/10"
               >
-                <div className="bg-gradient-to-br from-[#333] to-[#2a2a2a] rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                <div className="bg-[#51cb20]/10 p-3 rounded-lg w-fit mb-4 group-hover:bg-[#51cb20]/20 transition-all">
                   {feature.icon}
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-2">{feature.title}</h4>
@@ -192,205 +213,213 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Learn More Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-[#1a1a1a] to-[#222222]">
+      {/* AI Features Section */}
+      <section className="py-20 px-6 bg-[#0c0c0c] relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#51cb20]/50 to-transparent"></div>
         <div className="max-w-6xl mx-auto">
           <motion.h3 
-            initial={{ y: 50, opacity: 0 }}
+            initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-white text-center mb-12" 
-            id="learn-more"
+            className="text-3xl font-bold text-[#51cb20] text-center mb-12"
           >
-            Learn More About <span className="bg-gradient-to-r from-[#51cb20] to-[#3da00a] text-transparent bg-clip-text">Get Notey</span>
+            Custom AI Response Styles
           </motion.h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="bg-[#2a2a2a] rounded-xl p-8 border border-[#333]">
-              <h4 className="text-2xl font-semibold text-white mb-4">Why Choose Get Notey?</h4>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3">
-                  <div className="bg-[#333] rounded-full w-8 h-8 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-[#51cb20] font-bold">1</span>
-                  </div>
-                  <div>
-                    <h5 className="text-lg font-medium text-white mb-1">Streamlined Organization</h5>
-                    <p className="text-gray-400">Keep all your PDF documents in one place with our intuitive file management system. No more searching through folders or emails.</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="bg-[#333] rounded-full w-8 h-8 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-[#51cb20] font-bold">2</span>
-                  </div>
-                  <div>
-                    <h5 className="text-lg font-medium text-white mb-1">Smart Note-Taking</h5>
-                    <p className="text-gray-400">Create notes directly linked to specific sections of your PDFs. Never lose context or struggle to find related information again.</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="bg-[#333] rounded-full w-8 h-8 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-[#51cb20] font-bold">3</span>
-                  </div>
-                  <div>
-                    <h5 className="text-lg font-medium text-white mb-1">AI-Powered Insights</h5>
-                    <p className="text-gray-400">Our AI assistant helps you understand complex content, summarize information, and extract key insights from your documents.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            {/* AI Response Style Cards - Keep the same content but update styling */}
+            <motion.div 
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="relative rounded-xl p-6 overflow-hidden group"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.8))',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid #3b82f6',
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-30 group-hover:opacity-50 transition-opacity"></div>
+              <h4 className="text-xl font-bold text-white mb-3 relative z-10">Formal Mode</h4>
+              <p className="text-gray-300 mb-4 relative z-10">Professional and concise responses for academic or business contexts.</p>
+              <div className="bg-gray-800/50 rounded-lg p-4 relative z-10">
+                <p className="text-sm text-gray-300 italic">
+                  "The analysis indicates a 15% increase in efficiency when implementing the proposed solution..."
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="relative rounded-xl p-6 overflow-hidden group"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.8))',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid #ec4899',
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-red-500/10 opacity-30 group-hover:opacity-50 transition-opacity"></div>
+              <h4 className="text-xl font-bold text-white mb-3 relative z-10">Bestie Mode</h4>
+              <p className="text-gray-300 mb-4 relative z-10">Friendly and supportive responses with a personal touch.</p>
+              <div className="bg-gray-800/50 rounded-lg p-4 relative z-10">
+                <p className="text-sm text-gray-300 italic">
+                  "OMG bestie! 💖 I totally get what you're asking about! Here's the tea on that topic..."
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="relative rounded-xl p-6 overflow-hidden group"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.8))',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid #10b981',
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-teal-500/10 opacity-30 group-hover:opacity-50 transition-opacity"></div>
+              <h4 className="text-xl font-bold text-white mb-3 relative z-10">Gen Z Mode</h4>
+              <p className="text-gray-300 mb-4 relative z-10">Casual and trendy responses using current slang and expressions.</p>
+              <div className="bg-gray-800/50 rounded-lg p-4 relative z-10">
+                <p className="text-sm text-gray-300 italic">
+                  "No cap, this is straight fire! The vibe check on this solution is 💯..."
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Processing Features Section */}
+      <section className="py-20 px-6 relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#51cb20]/50 to-transparent"></div>
+        <div className="max-w-6xl mx-auto">
+          <motion.div 
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h3 className="text-sm font-medium text-[#51cb20] uppercase tracking-wider mb-3">Processing</h3>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Powerful Document Processing</h2>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {processingFeatures.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gradient-to-b from-[#1e1e1e] to-[#161616] rounded-xl p-6 border border-gray-800 hover:border-[#51cb20]/50 transition-all group"
+              >
+                <div className="bg-[#51cb20]/10 p-3 rounded-lg w-fit mb-4 group-hover:bg-[#51cb20]/20 transition-all">
+                  {feature.icon}
+                </div>
+                <h4 className="text-xl font-semibold text-white mb-2">{feature.title}</h4>
+                <p className="text-gray-400">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Performance Features Section */}
+      <section className="py-20 px-6 bg-[#0c0c0c] relative">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#51cb20]/50 to-transparent"></div>
+        <div className="max-w-6xl mx-auto">
+          <motion.div 
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h3 className="text-sm font-medium text-[#51cb20] uppercase tracking-wider mb-3">Performance</h3>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">Built for Speed and Reliability</h2>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {performanceFeatures.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gradient-to-b from-[#1e1e1e] to-[#161616] rounded-xl p-6 border border-gray-800 hover:border-[#51cb20]/50 transition-all group"
+              >
+                <div className="bg-[#51cb20]/10 p-3 rounded-lg w-fit mb-4 group-hover:bg-[#51cb20]/20 transition-all">
+                  {feature.icon}
+                </div>
+                <h4 className="text-xl font-semibold text-white mb-2">{feature.title}</h4>
+                <p className="text-gray-400">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-6 relative">
+        <div className="max-w-4xl mx-auto">
+          <motion.div 
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-[#1e1e1e] to-[#121212] rounded-2xl p-12 border border-gray-800 relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-5"></div>
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#51cb20] rounded-full opacity-10 blur-3xl"></div>
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#51cb20] rounded-full opacity-10 blur-3xl"></div>
             
-            <div className="bg-[#2a2a2a] rounded-xl p-8 border border-[#333]">
-              <h4 className="text-2xl font-semibold text-white mb-4">Perfect For</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="bg-[#333] rounded-lg p-5 border border-[#444]">
-                  <h5 className="text-lg font-medium text-white mb-2">Students</h5>
-                  <p className="text-gray-400">Organize study materials, textbooks, and research papers. Create notes for exam preparation and get AI help with difficult concepts.</p>
-                </div>
-                <div className="bg-[#333] rounded-lg p-5 border border-[#444]">
-                  <h5 className="text-lg font-medium text-white mb-2">Researchers</h5>
-                  <p className="text-gray-400">Manage academic papers, extract insights, and organize your research materials in one centralized location.</p>
-                </div>
-                <div className="bg-[#333] rounded-lg p-5 border border-[#444]">
-                  <h5 className="text-lg font-medium text-white mb-2">Professionals</h5>
-                  <p className="text-gray-400">Keep track of reports, contracts, and business documents. Create notes for meetings and important information.</p>
-                </div>
-                <div className="bg-[#333] rounded-lg p-5 border border-[#444]">
-                  <h5 className="text-lg font-medium text-white mb-2">Knowledge Workers</h5>
-                  <p className="text-gray-400">Organize reference materials, create a personal knowledge base, and leverage AI to extract valuable insights.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-12 bg-[#2a2a2a] rounded-xl p-8 border border-[#333]">
-            <h4 className="text-2xl font-semibold text-white mb-6 text-center">Frequently Asked Questions</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h5 className="text-lg font-medium text-white mb-2">How many PDFs can I upload?</h5>
-                <p className="text-gray-400">With our free plan, you can upload up to 10 PDF files. Our Pro plan offers unlimited PDF uploads.</p>
-              </div>
-              <div>
-                <h5 className="text-lg font-medium text-white mb-2">Can I collaborate with others?</h5>
-                <p className="text-gray-400">Currently, Get Notey is designed for individual use, but we're working on collaboration features for future updates.</p>
-              </div>
-              <div>
-                <h5 className="text-lg font-medium text-white mb-2">Can I access my PDFs offline?</h5>
-                <p className="text-gray-400">Currently, Get Notey requires an internet connection to access your documents and notes.</p>
-              </div>
-              <div>
-                <h5 className="text-lg font-medium text-white mb-2">How does the AI assistant work?</h5>
-                <p className="text-gray-400">Our AI analyzes the content of your PDFs to provide explanations, summaries, and insights based on your specific questions.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How to Use AI Feature */}
-      <section className="py-20 px-6 bg-gradient-to-b from-[#222222] to-[#1a1a1a]">
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-3xl font-bold text-white text-center mb-8">
-            How to Use Our <span className="text-[#51cb20]">AI Assistant</span>
-          </h3>
-          <div className="bg-[#2a2a2a] rounded-xl p-8 border border-[#333]">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-[#333] rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                  <span className="text-[#51cb20] font-bold text-xl">1</span>
-                </div>
-                <h4 className="text-xl font-semibold text-white mb-2">Select Text</h4>
-                <p className="text-gray-400">Highlight any text in your PDF that you want to learn more about.</p>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-[#333] rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                  <span className="text-[#51cb20] font-bold text-xl">2</span>
-                </div>
-                <h4 className="text-xl font-semibold text-white mb-2">Click "Ask AI"</h4>
-                <p className="text-gray-400">Click the "Ask AI" button that appears when text is selected.</p>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="bg-[#333] rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                  <span className="text-[#51cb20] font-bold text-xl">3</span>
-                </div>
-                <h4 className="text-xl font-semibold text-white mb-2">Get Insights</h4>
-                <p className="text-gray-400">Ask what you want to know and receive instant AI-powered explanations and insights.</p>
-              </div>
-            </div>
-            <div className="mt-8 p-4 bg-[#333] rounded-lg border border-[#444]">
-              <p className="text-gray-300 text-center italic">
-                "Simply select any text in your document, click on 'Ask AI', and type what you want to know. Our AI will analyze the content and provide you with detailed explanations and insights."
+            <div className="relative z-10 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to get started with Get Notey?</h2>
+              <p className="text-gray-300 mb-8 text-lg max-w-2xl mx-auto">
+                Join thousands of users who are already enhancing their note-taking experience with our powerful AI-assisted platform.
               </p>
+              <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+                <Button className="bg-[#51cb20] hover:bg-[#45a049] text-white text-lg px-8 py-6 rounded-full transition-all shadow-lg shadow-green-900/20">
+                  {isSignedIn ? "Go to Dashboard" : "Sign Up for Free"} <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 px-6 bg-gradient-to-b from-[#1a1a1a] to-[#0f0f0f]">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h3 
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-white mb-6"
-          >
-            Ready to Get Organized?
-          </motion.h3>
-          <motion.p 
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-xl text-gray-300 mb-10"
-          >
-            Join thousands of users who are already using Get Notey to organize their PDF documents.
-          </motion.p>
-          <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            whileHover={{ scale: 1.05 }}
-            className="inline-block"
-          >
-            <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
-              <Button className="bg-gradient-to-r from-[#51cb20] to-[#3da00a] hover:from-[#45a049] hover:to-[#348c08] text-white text-lg px-10 py-6 rounded-xl transition-all shadow-lg hover:shadow-xl hover:shadow-[#51cb20]/20">
-                {isSignedIn ? "Go to Dashboard" : "Get Started Now"} <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
           </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-6 bg-[#0a0a0a] border-t border-[#222]">
+      <footer className="py-12 px-6 bg-[#0a0a0a] border-t border-gray-800">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+            <div className="flex items-center space-x-2 mb-6 md:mb-0">
               <Image 
                 src="/logo.png" 
                 alt="Get Notey Logo" 
-                width={30} 
-                height={30}
+                width={32} 
+                height={32}
                 className="rounded-md"
               />
-              <span className="text-white font-medium">Get Notey</span>
+              <span className="text-xl font-bold text-white">Get Notey</span>
             </div>
-            <div className="flex space-x-6">
-              <Link href="/privacy" className="text-gray-400 hover:text-white transition-all">
-                Privacy
-              </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white transition-all">
-                Terms
-              </Link>
-              <Link href="/contact" className="text-gray-400 hover:text-white transition-all">
-                Contact
-              </Link>
+            <div className="flex space-x-8">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">Contact</a>
             </div>
           </div>
-          <div className="mt-8 text-center text-gray-500 text-sm">
+          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
             © {new Date().getFullYear()} Get Notey. All rights reserved.
           </div>
         </div>
