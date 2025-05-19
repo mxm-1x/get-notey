@@ -6,9 +6,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   title: 'Get Notey',
-  description: 'Organize your PDF notes with AI assistance',
+  description: 'Take notes with AI assistance',
   icons: {
-    icon: '/logo.png',
+    icon: '/favicon.ico',
+    apple: '/favicon.ico', // You can also use favicon.ico for Apple devices
   },
 };
 
