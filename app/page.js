@@ -399,28 +399,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 bg-[#0a0a0a] border-t border-gray-800">
+      {/* Footer - Enhanced Design */}
+      <footer className="py-12 px-6 bg-gradient-to-b from-[#0c0c0c] to-[#080808] border-t border-gray-800">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-6 md:mb-0">
-              <Image 
-                src="/logo.png" 
-                alt="Get Notey Logo" 
-                width={32} 
-                height={32}
-                className="rounded-md"
-              />
-              <span className="text-xl font-bold text-white">Get Notey</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Image 
+                  src="/logo.png" 
+                  alt="Get Notey Logo" 
+                  width={40} 
+                  height={40}
+                  className="rounded-md"
+                />
+                <span className="text-xl font-bold text-white">Get Notey</span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                A powerful note-taking application with AI integration to help you organize and enhance your notes.
+              </p>
             </div>
-            <div className="flex space-x-8">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Contact</a>
-            </div>
+            
+            
+            
+        
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-            © {new Date().getFullYear()} Get Notey. All rights reserved.
+          
+          <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+            <div>© {new Date().getFullYear()} Get Notey. All rights reserved.</div>
+            <div className="mt-4 md:mt-0 flex items-center">
+              <span>Developed by{" "}</span>
+              <a 
+                href="https://www.linkedin.com/in/malharmahanwar/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[#51cb20] hover:text-[#51cb20]/80 transition-colors mx-1 flex items-center"
+              >
+                Malhar Mahanwar
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 ml-1">
+                  <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
+                </svg>
+              </a>
+              <span className="mx-2">•</span>
+              <span>Developer</span>
+              <span className="mx-2">•</span>
+              <a 
+                href="mailto:malharmahanor@gmail.com" 
+                className="text-[#51cb20] hover:text-[#51cb20]/80 transition-colors"
+              >
+                malharmahanor@gmail.com
+              </a>
+            </div>
           </div>
         </div>
       </footer>
