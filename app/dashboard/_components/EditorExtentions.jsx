@@ -42,6 +42,7 @@ function EditorExtentions({ editor }) {
     };
 
     const searchAi = useAction(api.myAction.search)
+    const generateAi = useAction(api.myAction.generate)
     const onAiClick = async () => {
         console.log('ai clicked')
 
@@ -82,9 +83,7 @@ function EditorExtentions({ editor }) {
             // Use the selected prompt mode
             const PROMPT = PROMPTS[aiMode](selectedText, AllUnformattedAns);
 
-            const AiModelResult = await chatSession.sendMessage(PROMPT);
-            // Get the text content from the response
-            const aiResponse = await AiModelResult.response.text();
+            const aiResponse = await generateAi({ query: PROMPT });
             console.log("AI response:", aiResponse);
 
             // Store the current cursor position
@@ -135,13 +134,13 @@ function EditorExtentions({ editor }) {
     // Function to handle document download as DOC
     const handleDocDownload = async () => {
         if (!editor) return;
-        
+
         try {
             setIsDownloading(true);
-            
+
             // Get the editor content as HTML
             const editorContent = editor.getHTML();
-            
+
             // Create a Blob with the content in MS Word compatible format
             // Using MS Word HTML format with specific meta tags
             const blob = new Blob([`
@@ -169,30 +168,30 @@ function EditorExtentions({ editor }) {
                 </body>
                 </html>
             `], { type: 'application/msword' });
-            
+
             // Create a download link
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            
+
             // Get the document title from the first heading or use default
             let title = 'Get-Notey-Document';
-            const firstHeading = editor.getJSON().content?.find(node => 
+            const firstHeading = editor.getJSON().content?.find(node =>
                 node.type === 'heading' && node.content && node.content[0]?.text
             );
-            
+
             if (firstHeading?.content[0]?.text) {
                 title = firstHeading.content[0].text.substring(0, 30).replace(/[^a-z0-9]/gi, '-');
             }
-            
+
             link.href = url;
             link.download = `${title}.doc`;
             document.body.appendChild(link);
             link.click();
-            
+
             // Clean up
             URL.revokeObjectURL(url);
             document.body.removeChild(link);
-            
+
         } catch (error) {
             console.error('Error generating document:', error);
         } finally {
@@ -204,13 +203,13 @@ function EditorExtentions({ editor }) {
     // Function to handle document download as PDF
     const handlePdfDownload = async () => {
         if (!editor) return;
-        
+
         try {
             setIsDownloading(true);
-            
+
             // Get the editor content as HTML
             const editorContent = editor.getHTML();
-            
+
             // Create a Blob with the content
             const blob = new Blob([`
                 <!DOCTYPE html>
@@ -231,30 +230,30 @@ function EditorExtentions({ editor }) {
                 </body>
                 </html>
             `], { type: 'text/html' });
-            
+
             // Create a download link
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            
+
             // Get the document title from the first heading or use default
             let title = 'Get-Notey-Document';
-            const firstHeading = editor.getJSON().content?.find(node => 
+            const firstHeading = editor.getJSON().content?.find(node =>
                 node.type === 'heading' && node.content && node.content[0]?.text
             );
-            
+
             if (firstHeading?.content[0]?.text) {
                 title = firstHeading.content[0].text.substring(0, 30).replace(/[^a-z0-9]/gi, '-');
             }
-            
+
             link.href = url;
             link.download = `${title}.pdf`;
             document.body.appendChild(link);
             link.click();
-            
+
             // Clean up
             URL.revokeObjectURL(url);
             document.body.removeChild(link);
-            
+
         } catch (error) {
             console.error('Error generating PDF:', error);
         } finally {
@@ -448,22 +447,21 @@ function EditorExtentions({ editor }) {
                 >
                     <Redo2 className="w-4 h-4" />
                 </button>
-                
+
                 {/* Download dropdown */}
                 <div className="relative" ref={downloadDropdownRef}>
                     <button
                         onClick={() => setDownloadDropdownOpen(!downloadDropdownOpen)}
                         disabled={isDownloading}
-                        className={`p-1.5 rounded-md transition-colors ${
-                            isDownloading 
-                                ? 'bg-[#333] cursor-not-allowed' 
+                        className={`p-1.5 rounded-md transition-colors ${isDownloading
+                                ? 'bg-[#333] cursor-not-allowed'
                                 : 'bg-transparent text-white hover:bg-[#222] hover:text-[#51cb20]'
-                        }`}
+                            }`}
                         title="Download Document"
                     >
                         <Download className="w-4 h-4" />
                     </button>
-                    
+
                     {downloadDropdownOpen && (
                         <div className="absolute left-0 mt-1 w-36 bg-[#333] rounded-md shadow-lg z-10 border border-[#444]">
                             <button

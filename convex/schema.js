@@ -22,7 +22,7 @@ export default defineSchema({
         metadata: v.any(),
     }).vectorIndex("byEmbedding", {
         vectorField: "embedding",
-        dimensions: 768,
+        dimensions: 384, // This should match the dimensions of the embeddings you're using
     }),
     notes: defineTable({
         fileId: v.string(),
